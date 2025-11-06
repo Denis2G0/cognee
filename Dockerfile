@@ -1,7 +1,7 @@
 # Use a Python image with uv pre-installed
 FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS uv
 
-# Install the project into `/app`
+# Install the project into `/app` 
 WORKDIR /app
 
 # Enable bytecode compilation
@@ -31,8 +31,9 @@ RUN apt-get update && apt-get install -y \
 COPY README.md pyproject.toml uv.lock entrypoint.sh ./
 
 # Install the project's dependencies using the lockfile and settings
+# FIXED: Added --extra scraping to install protego and playwright
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --extra debug --extra api --extra postgres --extra neo4j --extra llama-index --extra ollama --extra mistral --extra groq --extra anthropic --frozen --no-install-project --no-dev --no-editable
+    uv sync --extra debug --extra api --extra postgres --extra neo4j --extra llama-index --extra ollama --extra mistral --extra groq --extra anthropic --extra scraping --frozen --no-install-project --no-dev --no-editable
 
 # Copy Alembic configuration
 COPY alembic.ini /app/alembic.ini
@@ -42,8 +43,9 @@ COPY alembic/ /app/alembic
 # Installing separately from its dependencies allows optimal layer caching
 COPY ./cognee /app/cognee
 COPY ./distributed /app/distributed
+# FIXED: Added --extra scraping to install protego and playwright
 RUN --mount=type=cache,target=/root/.cache/uv \
-uv sync --extra debug --extra api --extra postgres --extra neo4j --extra llama-index --extra ollama --extra mistral --extra groq --extra anthropic --frozen --no-dev --no-editable
+    uv sync --extra debug --extra api --extra postgres --extra neo4j --extra llama-index --extra ollama --extra mistral --extra groq --extra anthropic --extra scraping --frozen --no-dev --no-editable
 
 FROM python:3.12-slim-bookworm
 
