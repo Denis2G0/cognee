@@ -32,6 +32,10 @@ ARG NEXT_PUBLIC_MCP_SERVER_URL=https://cognee-mcp.eqipo.io
 ENV NEXT_PUBLIC_BACKEND_API_URL=${NEXT_PUBLIC_BACKEND_API_URL:-https://memory.eqipo.io}
 ENV NEXT_PUBLIC_MCP_SERVER_URL=${NEXT_PUBLIC_MCP_SERVER_URL:-https://cognee-mcp.eqipo.io}
 
+# Disable Auth0 completely
+ENV NEXT_PUBLIC_AUTH0_ENABLED=false
+ENV AUTH0_ENABLED=false
+
 # Disable telemetry
 ENV NEXT_TELEMETRY_DISABLED=1
 
