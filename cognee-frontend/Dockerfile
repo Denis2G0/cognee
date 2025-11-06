@@ -19,12 +19,12 @@ COPY postcss.config.mjs .
 COPY tsconfig.json .
 
 # Accept build arguments for environment variables
-ARG NEXT_PUBLIC_BACKEND_API_URL
-ARG NEXT_PUBLIC_MCP_SERVER_URL
+ARG NEXT_PUBLIC_BACKEND_API_URL=https://memory.eqipo.io
+ARG NEXT_PUBLIC_MCP_SERVER_URL=https://cognee-mcp.eqipo.io
 
-# Set environment variables for the build process
-ENV NEXT_PUBLIC_BACKEND_API_URL=$NEXT_PUBLIC_BACKEND_API_URL
-ENV NEXT_PUBLIC_MCP_SERVER_URL=$NEXT_PUBLIC_MCP_SERVER_URL
+# Set environment variables for the build process (with defaults)
+ENV NEXT_PUBLIC_BACKEND_API_URL=${NEXT_PUBLIC_BACKEND_API_URL:-https://memory.eqipo.io}
+ENV NEXT_PUBLIC_MCP_SERVER_URL=${NEXT_PUBLIC_MCP_SERVER_URL:-https://cognee-mcp.eqipo.io}
 
 # Build the application (this embeds env vars into JavaScript)
 RUN npm run build
