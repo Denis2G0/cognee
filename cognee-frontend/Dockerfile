@@ -18,6 +18,9 @@ COPY next.config.mjs .
 COPY postcss.config.mjs .
 COPY tsconfig.json .
 
+# Create type declaration for d3-force-3d to fix TypeScript error
+RUN echo "declare module 'd3-force-3d';" > src/d3-force-3d.d.ts
+
 # Accept build arguments for environment variables
 ARG NEXT_PUBLIC_BACKEND_API_URL=https://memory.eqipo.io
 ARG NEXT_PUBLIC_MCP_SERVER_URL=https://cognee-mcp.eqipo.io
@@ -25,6 +28,9 @@ ARG NEXT_PUBLIC_MCP_SERVER_URL=https://cognee-mcp.eqipo.io
 # Set environment variables for the build process (with defaults)
 ENV NEXT_PUBLIC_BACKEND_API_URL=${NEXT_PUBLIC_BACKEND_API_URL:-https://memory.eqipo.io}
 ENV NEXT_PUBLIC_MCP_SERVER_URL=${NEXT_PUBLIC_MCP_SERVER_URL:-https://cognee-mcp.eqipo.io}
+
+# Disable telemetry
+ENV NEXT_TELEMETRY_DISABLED=1
 
 # Build the application (this embeds env vars into JavaScript)
 RUN npm run build
