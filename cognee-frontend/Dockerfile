@@ -18,5 +18,19 @@ COPY next.config.mjs .
 COPY postcss.config.mjs .
 COPY tsconfig.json .
 
-# Build the app and run it
-CMD ["npm", "run", "dev"]
+# Accept build arguments for environment variables
+ARG NEXT_PUBLIC_BACKEND_API_URL
+ARG NEXT_PUBLIC_MCP_SERVER_URL
+
+# Set environment variables for the build process
+ENV NEXT_PUBLIC_BACKEND_API_URL=$NEXT_PUBLIC_BACKEND_API_URL
+ENV NEXT_PUBLIC_MCP_SERVER_URL=$NEXT_PUBLIC_MCP_SERVER_URL
+
+# Build the application (this embeds env vars into JavaScript)
+RUN npm run build
+
+# Expose port 3000
+EXPOSE 3000
+
+# Run production server instead of dev
+CMD ["npm", "start"]
